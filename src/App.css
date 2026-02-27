@@ -1,3 +1,5 @@
+@import "tachyons";
+
 *,
 *::before,
 *::after {
@@ -7,5 +9,26 @@
 }
 body {
 	margin: 4rem;
-	background-color: white;
+	background-color: #fffceb; /* Tachyons bg-washed-yellow */
+	color: #333;
+}
+
+.container {
+	width: 100%;
+	/*
+	max-width: 800px;
+	min-width: 400px;
+	*/
+}
+
+/* Reset the type elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+li {
+	margin: 0;
+	padding: 0;
 }
