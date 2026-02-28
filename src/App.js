@@ -1,40 +1,59 @@
 import "./App.css";
+import { SolarProvider } from '@solar-icons/react';
+import * as solar from '@solar-icons/react/category';
+
+// Build a flat list of all icons: { category, name, Icon }
+const allIcons = [];
+for (const [categoryName, categoryIcons] of Object.entries(solar)) {
+	if (typeof categoryIcons !== 'object' || categoryIcons === null) continue;
+	for (const [iconName, IconComponent] of Object.entries(categoryIcons)) {
+		// React components are functions (or forwardRef objects in some builds)
+		const isComponent = typeof IconComponent === 'function' || (typeof IconComponent === 'object' && IconComponent !== null);
+		if (isComponent) {
+			allIcons.push({ category: categoryName, name: iconName, Icon: IconComponent });
+		}
+	}
+}
 
 function App() {
 	return (
+		<SolarProvider value={{ size: '32', color: 'black', weight: 'Outline' }}>
 		<div className="container ma2 avenir">
-			<div className="mb4">
-				<h1 className="f1 fw7 lh-title mb2">This is some h1 header text</h1>
-				<h2 className="f2 fw7 lh-title mb2">This is some h2 header text</h2>
-				<h3 className="f3 fw7 lh-title mb2">This is some h3 header text</h3>
-				<h4 className="f4 fw6 lh-title mb2">This is some h4 header text</h4>
-				<h4 className="f5 fw6 lh-title mb2 ttu">This is some h5 header text</h4>
-			</div>
-			<p className="mb4 f4 fw5 lh-copy measure">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-				exercitation ullamco laboris.
-			</p>
-			<Card />
+			<h1 className="mb1 f2 fw7 lh-title mr2">Solar Outline Icons Collection</h1>
+			<p className="mb2 f4 fw5 lh-copy measure">Check the README in the npm package for more information.</p>
+			<p className="f5 fw5 lh-solid ma0 pa0">
+				<a href="https://www.svgrepo.com/collection/solar-outline-icons/">https://www.svgrepo.com/collection/solar-outline-icons/</a>
+				</p>
+			<Card>
+				<div className="flex flex-wrap" style={{ gap: '0.75rem' }}>
+					{allIcons.map(({ category, name, Icon }) => (
+						<div
+							key={`${category}-${name}`}
+							className="flex flex-column items-center pa3 ba br2 b--moon-gray hover-bg-light-gray"
+							style={{ minWidth: '6rem' }}
+						>
+							<Icon size={28} color="currentColor" />
+							<span className="f6 mt2 tc" style={{ wordBreak: 'break-word' }}>
+								{name}
+							</span>
+							<span className="f7 mid-gray">{category}</span>
+						</div>
+					))}
+				</div>
+			</Card>
 		</div>
+		</SolarProvider>
 	);
 }
 
-function Card() {
+function Card({ children }) {
 	return (
 		<div className="bg-white ba br3 b--moon-gray overflow-hidden">
 			<div className="card-header bg-dark-gray near-white ph4 pv4 bb b--moon-gray">
-				<h2 className="f3 fw7 lh-solid ma0 pa0">SVG icon library</h2>
+				<h2 className="f4 fw6 lh-solid ma0 pa0">https://www.svgrepo.com/collection/solar-outline-icons/</h2>
 			</div>
 			<div className="card-body pa4">
-				<p className="mb0 f5 fw5 lh-copy">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-					incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-					dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-					deserunt mollit anim id est laborum.
-				</p>
+				{children}
 			</div>
 		</div>
 	);
